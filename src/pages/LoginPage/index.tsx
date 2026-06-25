@@ -1,74 +1,57 @@
-import { useForm } from "react-hook-form";
+import React, { useState, type FormEvent } from 'react';
+import { useLogin } from '../../hooks/useAuth';
+// import { useNavigate } from 'react-router-dom'; 
 
-type LoginFormData = {
-    username: string;
-    password: string;
-};
-
-
-
-
-
+// 1. Importamos o ficheiro CSS como se fosse um objeto JavaScript
+import styles from './styles.module.css';
 
 export function LoginPage() {
-    const { register, handleSubmit } = useForm<LoginFormData>();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const { mutate: login, isPending } = useLogin();
+  // const navigate = useNavigate();
 
-    const onSubmit = (data: LoginFormData) => {
-        console.log(data);
-    };
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    login({ username, password }, {
+      onSuccess: () => {
+        alert('Login efetuado com sucesso!');
+        // navigate('/dashboard');
+      },
+      onError: () => alert('Falha no login.')
+    });
+  };
 
-    return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input
-        {...register("username")}
-        placeholder="Username"
-      />
+  return (
+    // 2. Usamos className={styles.nomeDaClasse} em vez de style={{...}}
+    <div className={styles.container}>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        
+        <input 
+          type="text" 
+          placeholder="User"
+          value={username} 
+          onChange={(e) => setUsername(e.target.value)}
+          className={styles.input}
+        />
 
-      <input
-        {...register("password")}
-        type="password"
-        placeholder="Password"
-      />
+        <input 
+          type="password" 
+          placeholder="Password"
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)}
+          className={styles.input}
+        />
 
-      <button type="submit">
-        Entrar
-      </button>
-    </form>
+        <button 
+          type="submit" 
+          disabled={isPending}
+          className={styles.button}
+        >
+          {isPending ? 'Carregando...' : 'Login'}
+        </button>
+
+      </form>
+    </div>
   );
 }
-
-// import { useForm } from "react-hook-form";
-
-// type LoginFormData = {
-//   username: string;
-//   password: string;
-// };
-
-// export function LoginPage() {
-//   const { register, handleSubmit } =
-//     useForm<LoginFormData>();
-
-//   const onSubmit = (data: LoginFormData) => {
-//     console.log(data);
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit(onSubmit)}>
-//       <input
-//         {...register("username")}
-//         placeholder="Username"
-//       />
-
-//       <input
-//         {...register("password")}
-//         type="password"
-//         placeholder="Password"
-//       />
-
-//       <button type="submit">
-//         Entrar
-//       </button>
-//     </form>
-//   );
-// }
-

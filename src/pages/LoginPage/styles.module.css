@@ -1,0 +1,56 @@
+/* src/pages/LoginPage/styles.module.css */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f7ebf2;
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 350px;
+  gap: 20px;
+}
+
+.input {
+  padding: 15px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+  outline: none;
+}
+
+/* Pseudo-classe para dar feedback visual ao focar no campo */
+.input:focus {
+  box-shadow: 0 4px 8px rgba(67, 0, 117, 0.2);
+}
+
+.button {
+  padding: 15px;
+  background-color: #430075;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  margin-top: 10px;
+  transition: background-color 0.2s ease;
+}
+
+/* Quando passamos o rato por cima */
+.button:hover:not(:disabled) {
+  background-color: #550095; 
+}
+
+/* Quando o botão está desativado (durante o loading) */
+.button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
