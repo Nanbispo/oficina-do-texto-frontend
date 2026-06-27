@@ -1,6 +1,6 @@
 import React, { useState, type FormEvent } from 'react';
 import { useLogin } from '../../hooks/useAuth';
-// import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom'; 
 
 // 1. Importamos o ficheiro CSS como se fosse um objeto JavaScript
 import styles from './styles.module.css';
@@ -9,14 +9,14 @@ export function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { mutate: login, isPending } = useLogin();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     login({ username, password }, {
       onSuccess: () => {
         alert('Login efetuado com sucesso!');
-        // navigate('/dashboard');
+        navigate('/dashboard');
       },
       onError: () => alert('Falha no login.')
     });
