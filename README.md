@@ -1,73 +1,56 @@
-# React + TypeScript + Vite
+# saraloia-frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Descrição breve
 
-Currently, two official plugins are available:
+Front-end da aplicação "Oficina do texto" (repositório: Oficina do texto-frontend). Projeto construído com React + TypeScript e empacotado com Vite. Contém uma estrutura típica de SPA com rotas, chamadas HTTP e gerenciamento de estado/caching para integrar com uma API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Avaliação do que o projeto se trata
 
-## React Compiler
+- Objetivo: implementar a interface cliente de uma aplicação web moderna — páginas, formulários, chamadas a APIs e navegação entre telas.
+- Estrutura: código organizado em entradas (main.tsx / App.tsx), páginas em /src/pages, hooks reutilizáveis em /src/hooks e camada de API em /src/api.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Stack detectada (baseado em package.json)
 
-## Expanding the ESLint configuration
+- Linguagem e bundler: TypeScript, Vite
+- UI: React (v19)
+- Roteamento: react-router-dom
+- Requisições HTTP: axios
+- Estado remoto / cache: @tanstack/react-query
+- Formulários: react-hook-form
+- Validação: zod (com @hookform/resolvers)
+- Linting / DX: ESLint, plugins relacionados
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Principais scripts (package.json)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- npm run dev — inicia servidor de desenvolvimento (Vite)
+- npm run build — compila TypeScript e gera build do Vite
+- npm run lint — executa ESLint
+- npm run preview — pré-visualiza build estático
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Habilidades desenvolvidas ao trabalhar neste projeto
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Desenvolvimento com React + TypeScript: tipagem de componentes, props e modelagem de tipos em /src/types
+- Arquitetura de frontend: separação entre pages, hooks e camada de API
+- Consumo de APIs: uso de axios e organização de chamadas em /src/api
+- Gerenciamento de dados remotos: caching e sincronização com @tanstack/react-query
+- Tratamento de formulários e validação: react-hook-form + zod
+- Roteamento de SPA com react-router-dom
+- Ferramentas de build e produtividade: configuração e uso do Vite, scripts npm, e ESLint para qualidade de código
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Sugestões rápidas de seção a incluir/atualizar no README (opcional)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Como rodar localmente (ex.: npm install && npm run dev)
+- Como contribuir
+- Estrutura de pastas (breve mapa)
+- Requisitos (Node versão recomendada)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Como rodar
+
+1. Instalar dependências:
+
+   npm install
+
+2. Rodar em modo dev:
+
+   npm run dev
+
