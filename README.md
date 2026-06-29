@@ -1,4 +1,4 @@
-# saraloia-frontend
+# Oficina do texto-frontend
 
 Descrição breve
 
