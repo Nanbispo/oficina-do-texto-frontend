@@ -1,23 +1,23 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { LoginPage } from "./pages/LoginPage";
-import type { JSX } from "react/jsx-runtime";
 import { ArtigosCriadora } from "./pages/ArtigosCriadora";
-
-
-
-
+import { Home } from "./pages/Home";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Rota Pública (Qualquer um acessa) */}
-        <Route path="/" element={<LoginPage />} />
+        {/* Rota Pública (A Home agora tem apenas a barra "/") */}
+        <Route path="/" element={<Home />} />
 
-        {/* Rota Privada (Só passa quem tem token) */}
-        <Route path="/dashboard" element={<ArtigosCriadora />} />
+        {/* O Login agora tem a rota "/login" */}
+        <Route path="/login" element={<LoginPage />} />
+
+        {/* Rota Privada */}
+        <Route path="/ArtigosCriadora" element={<ArtigosCriadora />} />
       </Routes>
     </BrowserRouter>
   );
 }
+
 export default App;

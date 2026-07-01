@@ -5,7 +5,7 @@ export interface User {
 
 export interface Tag {
     id: number;
-    title: string;
+    name: string;
 }
 
 export interface Post {
