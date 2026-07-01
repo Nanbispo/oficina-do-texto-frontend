@@ -1,75 +1,80 @@
 import React from 'react';
+import { usePosts } from '../../hooks/usePosts'; 
 import styles from './style.module.css';
-import penIcon from '../../assets/pen.svg';
-import trashIcon from '../../assets/trash.svg';
+import lapisIcon from '../../assets/pen.svg'; 
+import lixeiraIcon from '../../assets/trash.svg';
 
 export function ArtigosCriadora() {
-  // Mantemos a mesma lógica inteligente: deteta se o token existe
   const isCriadora = !!localStorage.getItem('@App:token');
 
-  const mockArticles = [
-    { id: 1, title: 'Título', content: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum' },
-    { id: 2, title: 'Título', content: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum' },
-    { id: 3, title: 'Título', content: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum' },
-  ];
+  // Os dados já vêm perfeitos da API!
+  const { data: posts = [], isLoading, error } = usePosts();
+
+  if (isLoading) {
+    return <div className={styles.container} style={{ padding: '40px', textAlign: 'center' }}>Carregando artigos...</div>;
+  }
+
+  if (error) {
+    return <div className={styles.container} style={{ padding: '40px', textAlign: 'center', color: 'red' }}>Erro ao conectar com a API.</div>;
+  }
 
   return (
     <div className={styles.container}>
-      {/* BANNER SUPERIOR */}
+      
       <header className={styles.banner}>
-        <div className={styles.gradientBadge}>
-          Redação para Enem
-        </div>
-
-        {/* Só a criadora vê o botão de criar novos artigos */}
-        {isCriadora && (
-          <button className={styles.newArticleButton}>
-            Novo Artigo
-          </button>
-        )}
+        <div className={styles.gradientBadge}>Redação para Enem</div>
+        {isCriadora && <button className={styles.newArticleButton}>Novo Artigo</button>}
       </header>
 
-      {/* SEÇÃO DOS ARTIGOS */}
       <main className={styles.contentSection}>
         <div className={styles.headerRow}>
           <h1 className={styles.title}>Artigos</h1>
-          <button className={styles.filterButton}>░</button>
+          <button className={styles.filterButton}>
+            <span className={styles.filterLine}></span>
+            <span className={styles.filterLine}></span>
+            <span className={styles.filterLine}></span>
+          </button>
         </div>
 
         <div className={styles.grid}>
-          {mockArticles.map((article) => (
-            <article key={article.id} className={styles.card}>
+          {posts.map((post) => (
+            <article key={post.id} className={styles.card}>
+              
               <div className={styles.cardHeader}>
-                <h2 className={styles.cardTitle}>{article.title}</h2>
-
-                {/* Só a criadora tem acesso aos botões de edição e eliminação */}
+                {/* Nome correto do json: title */}
+                <h2 className={styles.cardTitle}>{post.title}</h2>
+                
                 {isCriadora && (
                   <div className={styles.actionsGrid}>
-                    {/* Botão de Editar */}
                     <button className={`${styles.actionIcon} ${styles.editBtn}`} title="Editar">
-                      <img src={penIcon} alt="Editar" className={styles.iconImage} />
+                      <img src={lapisIcon} alt="Editar" className={styles.iconImage} />
                     </button>
-
-                    {/* Botão de Excluir */}
                     <button className={`${styles.actionIcon} ${styles.deleteBtn}`} title="Excluir">
-                      <img src={trashIcon
-                      } alt="Excluir" className={styles.iconImage} />
+                      <img src={lixeiraIcon} alt="Excluir" className={styles.iconImage} />
                     </button>
                   </div>
                 )}
               </div>
 
-              <p className={styles.cardBody}>{article.content}</p>
-
+              {/* Nome correto do json: content */}
+              <p className={styles.cardBody}>
+                {post.content.length > 140 ? `${post.content.substring(0, 140)}...` : post.content}
+              </p>
+              
+              {/* Nome correto do json: author */}
               <div className={styles.cardAuthor}>
-                Autor:<br /><strong>Sara Loia</strong>
+                Autor:<br /><strong>{post.author}</strong>
               </div>
 
+              {/* O Go já entrega o array de tags, é só mapear */}
               <div className={styles.tagsRow}>
-                <span className={`${styles.tag} ${styles.tagEnem}`}>Enem</span>
-                <span className={`${styles.tag} ${styles.tagRedacao}`}>Redação</span>
-                <span className={`${styles.tag} ${styles.tagMore}`}>+2</span>
+                {post.tags?.map((tag) => (
+                  <span key={tag.id} className={`${styles.tag} ${styles.tagDefault}`}>
+                    {tag.name}
+                  </span>
+                ))}
               </div>
+
             </article>
           ))}
         </div>
