@@ -15,7 +15,7 @@ export function ArtigosCriadora() {
   }
 
   if (error) {
-    return <div className={styles.container} style={{ padding: '40px', textAlign: 'center', color: 'red' }}>Erro ao conectar com a API. ${error.message}</div>;
+    return <div className={styles.container} style={{ padding: '40px', textAlign: 'center', color: 'red' }}>Erro ao conectar com a API.</div>;
   }
 
   return (

@@ -1,5 +1,6 @@
 /* src/pages/ArtigosCriadora/styles.module.css */ 
-
+@import url('https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap');
 /* 1. ESTRUTURA GLOBAL DA PÁGINA */ 
 .container { 
   min-height: 100vh; 
@@ -32,9 +33,11 @@
   color: white; 
   font-size: 32px; 
   text-align: center; 
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); 
-  font-weight: 300; 
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);  
   letter-spacing: 0.5px; 
+
+  font-family: 'Kodchasan', sans-serif;
+  font-weight: 400; /* Peso Regular */
 } 
 
 /* Botão verde de "NOVO ARTIGO" */ 
@@ -45,12 +48,14 @@
   padding: 14px 45px; 
   border-radius: 12px; /* Cantos levemente arredondados como na imagem */ 
   font-size: 16px; 
-  font-weight: bold; 
   cursor: pointer; 
   letter-spacing: 1px; 
   box-shadow: 0 4px 12px rgba(0, 204, 0, 0.4); 
   text-transform: uppercase; 
   transition: transform 0.2s, background-color 0.2s; 
+
+  font-family: 'Kodchasan', sans-serif;
+  font-weight: 900; /* Peso Bold (Negrito) */
 } 
 
 .newArticleButton:hover { 
@@ -63,6 +68,7 @@
   max-width: 1140px; 
   margin: 50px auto 0 auto; 
   padding: 0 24px; 
+  font-family: 'Merriweather', sans-serif;
 } 
 
 /* Linha do título "Artigos" + Botão de Filtro */ 
@@ -78,6 +84,7 @@
   color: #000000; 
   margin: 0; 
   font-weight: normal; /* Fonte leve e elegante */ 
+  font-family: 'Kodchasan', sans-serif;
 } 
 
 /* Botão redondo branco de filtro */ 
@@ -155,6 +162,7 @@
   white-space: nowrap;       
   overflow: hidden;          
   text-overflow: ellipsis;
+  font-family: 'Kodchasan', sans-serif;
 } 
 
 /* Botões de Ação da Criadora (Caneta e Lixeira) */ 
@@ -233,11 +241,13 @@
 .tag { 
   padding: 6px 16px; 
   border-radius: 6px; 
-  font-size: 12px; 
+  font-size: 17px; 
   font-weight: 500; 
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Kodchasan', sans-serif;
+  font-weight: 900; /* Peso Regular */
 } 
 
 /* Ciclo automático das 6 cores da paleta usando nth-child */
