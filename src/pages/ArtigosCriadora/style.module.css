@@ -126,6 +126,11 @@
   display: flex; 
   flex-direction: column; 
   position: relative; 
+  width: 300px;         /* Força todos a terem exatamente a mesma largura */
+  height: 250px;        /* Força todos a terem a mesma altura */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 } 
 
 .cardHeader { 
