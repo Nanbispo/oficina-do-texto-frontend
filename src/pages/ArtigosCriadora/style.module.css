@@ -1,0 +1,246 @@
+/* src/pages/ArtigosCriadora/styles.module.css */
+
+/* 1. ESTRUTURA GLOBAL DA PÁGINA */
+.container {
+  min-height: 100vh;
+  background-color: #fceef5; /* O tom de rosa/lilás bem suave do fundo */
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding-bottom: 40px;
+}
+
+/* 2. BANNER SUPERIOR (A foto com os estudos) */
+.banner {
+  width: 100%;
+  height: 380px;
+  background-color: #dcd0d6; /* Cor de fundo provisória */
+  background-image: url('../../assets/Referenciaestudo.svg'); 
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* O retângulo com o gradiente roxo -> rosa */
+.gradientBadge {
+  background: linear-gradient(90deg, #260376 0%, #43007C 21.15%, #F4057D 53.85%, #F66DBA 73.56%, #FAB6DB 87.5%, #F8E6F2 100%);
+  padding: 40px 100px;
+  border-radius: 24px;
+  color: white;
+  font-size: 32px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+/* Botão verde de "NOVO ARTIGO" */
+.newArticleButton {
+  background-color: #00cc00; /* Verde bem vivo da imagem */
+  color: white;
+  border: none;
+  padding: 14px 45px;
+  border-radius: 12px; /* Cantos levemente arredondados como na imagem */
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 12px rgba(0, 204, 0, 0.4);
+  text-transform: uppercase;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.newArticleButton:hover {
+  transform: scale(1.03);
+  background-color: #00b300;
+}
+
+/* 3. SEÇÃO DOS ARTIGOS (CONTEÚDO PRINCIPAL) */
+.contentSection {
+  max-width: 1140px;
+  margin: 50px auto 0 auto;
+  padding: 0 24px;
+}
+
+/* Linha do título "Artigos" + Botão de Filtro */
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-size: 56px;
+  color: #000000;
+  margin: 0;
+  font-weight: normal; /* Fonte leve e elegante */
+}
+
+/* Botão redondo branco de filtro */
+.filterButton {
+  background-color: white;
+  border: none;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+/* Linhas dentro do botão de filtro */
+.filterLine {
+  width: 22px;
+  height: 2px;
+  background-color: #000;
+  border-radius: 2px;
+}
+.filterLine:nth-child(2) { width: 16px; }
+.filterLine:nth-child(3) { width: 10px; }
+
+
+/* 4. GRID E CARDS DE ARTIGOS */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 colunas perfeitas de acordo com a imagem */
+  gap: 30px;
+}
+
+/* Card Individual (Fundo ciano claro) */
+.card {
+  background-color: #ebfffe; /* Tom exato de azul/ciano bem clarinho */
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.cardTitle {
+  font-size: 26px;
+  color: #1a1a1a;
+  margin: 0;
+  font-weight: normal;
+}
+
+/* Botões de Ação da Criadora (Caneta e Lixeira) */
+.actionsGrid {
+  display: flex;
+  gap: 8px;
+}
+
+.actionIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  
+  /* Começa totalmente transparente */
+  background-color: transparent; 
+  
+  /* Transição suave de 0.2 segundos para a cor do fundo e para o ícone */
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.actionIcon:active {
+  transform: scale(0.92);
+}
+
+/* --- HOVER DOS BOTÕES --- */
+
+/* Quando passar o mouse no botão de editar, ele ganha o fundo rosa */
+.editBtn:hover {
+  background-color: #d13b85; 
+}
+
+/* Quando passar o mouse no botão de excluir, ele ganha o fundo vermelho */
+.deleteBtn:hover {
+  background-color: #dd6161; 
+}
+
+
+/* --- TRATAMENTO DOS ÍCONES SVG --- */
+
+.iconImage {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  transition: filter 0.2s ease;
+}
+
+
+.editBtn:hover .iconImage,
+.deleteBtn:hover .iconImage {
+  filter: brightness(0) invert(1);
+}
+
+/* Texto do artigo */
+.cardBody {
+  font-size: 14px;
+  color: #2b2b2b;
+  line-height: 1.6;
+  margin: 0 0 25px 0;
+  font-weight: 400;
+}
+
+/* Informações do Autor */
+.cardAuthor {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.cardAuthor strong {
+  color: #000;
+  font-size: 14px;
+}
+
+/* Seção de Tags */
+.tagsRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: auto; /* Garante que as tags fiquem sempre alinhadas no rodapé do card */
+}
+
+.tag {
+  padding: 6px 16px;
+  border-radius: 6px; /* Cantos levemente quadrados */
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.tagEnem { background-color: #d13b85; }
+.tagRedacao { background-color: #e60073; }
+.tagMore { background-color: #4a5568; }
+
+/* 5. RODAPÉ DA PÁGINA */
+.footer {
+  text-align: center;
+  font-size: 13px;
+  color: #555;
+  margin-top: 80px;
+  letter-spacing: 0.5px;
+}

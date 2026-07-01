@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './style.module.css';
+import penIcon from '../../assets/pen.svg';
+import trashIcon from '../../assets/trash.svg';
 
 export function ArtigosCriadora() {
   // Mantemos a mesma lógica inteligente: deteta se o token existe
@@ -18,7 +20,7 @@ export function ArtigosCriadora() {
         <div className={styles.gradientBadge}>
           Redação para Enem
         </div>
-        
+
         {/* Só a criadora vê o botão de criar novos artigos */}
         {isCriadora && (
           <button className={styles.newArticleButton}>
@@ -39,18 +41,26 @@ export function ArtigosCriadora() {
             <article key={article.id} className={styles.card}>
               <div className={styles.cardHeader}>
                 <h2 className={styles.cardTitle}>{article.title}</h2>
-                
+
                 {/* Só a criadora tem acesso aos botões de edição e eliminação */}
                 {isCriadora && (
                   <div className={styles.actionsGrid}>
-                    <button className={`${styles.actionIcon} ${styles.editBtn}`} title="Editar">✏️</button>
-                    <button className={`${styles.actionIcon} ${styles.deleteBtn}`} title="Excluir">🗑️</button>
+                    {/* Botão de Editar */}
+                    <button className={`${styles.actionIcon} ${styles.editBtn}`} title="Editar">
+                      <img src={penIcon} alt="Editar" className={styles.iconImage} />
+                    </button>
+
+                    {/* Botão de Excluir */}
+                    <button className={`${styles.actionIcon} ${styles.deleteBtn}`} title="Excluir">
+                      <img src={trashIcon
+                      } alt="Excluir" className={styles.iconImage} />
+                    </button>
                   </div>
                 )}
               </div>
 
               <p className={styles.cardBody}>{article.content}</p>
-              
+
               <div className={styles.cardAuthor}>
                 Autor:<br /><strong>Sara Loia</strong>
               </div>
@@ -58,7 +68,7 @@ export function ArtigosCriadora() {
               <div className={styles.tagsRow}>
                 <span className={`${styles.tag} ${styles.tagEnem}`}>Enem</span>
                 <span className={`${styles.tag} ${styles.tagRedacao}`}>Redação</span>
-                <span className={`${styles.tag} ${styles.tagMore}`}>+ 2</span>
+                <span className={`${styles.tag} ${styles.tagMore}`}>+2</span>
               </div>
             </article>
           ))}
