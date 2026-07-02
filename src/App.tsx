@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { LoginPage } from "./pages/LoginPage";
 import { ArtigosCriadora } from "./pages/ArtigosCriadora";
+import { NovoArtigo } from "./pages/NovoArtigo";
 import { Home } from "./pages/Home";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
 
         {/* Rota Privada */}
         <Route path="/ArtigosCriadora" element={<ArtigosCriadora />} />
+        <Route path="/novo-artigo" element={<NovoArtigo />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,14 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { usePosts } from '../../hooks/usePosts'; 
 import styles from './style.module.css';
 import lapisIcon from '../../assets/pen.svg'; 
 import lixeiraIcon from '../../assets/trash.svg';
+
+
+
 
 export function ArtigosCriadora() {
   const isCriadora = !!localStorage.getItem('@App:token');
 
   // Os dados já vêm perfeitos da API!
   const { data: posts = [], isLoading, error } = usePosts();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <div className={styles.container} style={{ padding: '40px', textAlign: 'center' }}>Carregando artigos...</div>;
@@ -23,7 +28,7 @@ export function ArtigosCriadora() {
       
       <header className={styles.banner}>
         <div className={styles.gradientBadge}>Redação para Enem</div>
-        {isCriadora && <button className={styles.newArticleButton}>Novo Artigo</button>}
+        {isCriadora && <button className={styles.newArticleButton} onClick={() => navigate('/novo-artigo')}>Novo Artigo</button>}
       </header>
 
       <main className={styles.contentSection}>
@@ -86,3 +91,17 @@ export function ArtigosCriadora() {
     </div>
   );
 }
+
+// export function ArtigosCriadora() {
+//   const navigate = useNavigate(); // Inicialize o navigate
+//   // ...
+  
+//   // No seu botão "Novo Artigo", adicione o onClick:
+//   <button 
+//     className={styles.newArticleButton} 
+//     onClick={() => navigate('/novo-artigo')}
+//   >
+//     Novo Artigo
+//   </button>
+// }
+
