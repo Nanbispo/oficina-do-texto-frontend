@@ -43,19 +43,27 @@ export function Home() {
               </div>
 
               <p className={styles.cardBody}>
-                {post.content.length > 140 ? `${post.content.substring(0, 140)}...` : post.content}
+                {post.content.length > 140 ? `${post.content}...` : post.content}
               </p>
               
               <div className={styles.cardAuthor}>
                 Autor:<br /><strong>{post.author}</strong>
               </div>
 
+              {/* LÓGICA DAS TAGS: Mostra as 2 primeiras e conta o resto */}
               <div className={styles.tagsRow}>
-                {post.tags?.map((tag) => (
+                {post.tags?.slice(0, 2).map((tag) => (
                   <span key={tag.id} className={styles.tag}>
                     {tag.name}
                   </span>
                 ))}
+                
+                {/* Se houver mais de 2 tags, renderiza o botão cinza com a diferença */}
+                {post.tags && post.tags.length > 2 && (
+                  <span className={styles.tagCounter}>
+                    +{post.tags.length - 2}
+                  </span>
+                )}
               </div>
 
             </article>

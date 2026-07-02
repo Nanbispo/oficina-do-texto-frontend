@@ -58,7 +58,7 @@ export function ArtigosCriadora() {
 
               {/* Nome correto do json: content */}
               <p className={styles.cardBody}>
-                {post.content.length > 140 ? `${post.content.substring(0, 140)}...` : post.content}
+                {post.content.length > 140 ? `${post.content}...` : post.content}
               </p>
               
               {/* Nome correto do json: author */}
@@ -68,7 +68,7 @@ export function ArtigosCriadora() {
 
               {/* O Go já entrega o array de tags, é só mapear */}
               <div className={styles.tagsRow}>
-                {post.tags?.map((tag) => (
+                {post.tags?.slice(0, 2).map((tag) => (
                   <span key={tag.id} className={`${styles.tag} ${styles.tagDefault}`}>
                     {tag.name}
                   </span>

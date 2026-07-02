@@ -213,7 +213,28 @@
   line-height: 1.6; 
   margin: 0 0 25px 0; 
   font-weight: 400; 
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limita a exatamente 3 linhas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* QUEBRA DE PALAVRAS GIGANTES (Evita o vazamento lateral do seu teste) */
+  overflow-wrap: break-word;
+  word-break: break-word;
 } 
+
+.tagCounter {
+  background-color: #718096; /* Cinza chumbo/médio */
+  color: #FFFFFF;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 
 /* Informações do Autor */ 
 .cardAuthor { 
