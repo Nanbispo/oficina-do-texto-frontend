@@ -145,12 +145,12 @@
 /* --- ESTILOS PARA A ÁREA EDITÁVEL --- */
 
 /* Como trocamos o textarea por uma div, precisamos imitar o comportamento de placeholder vazio */
-.contentArea:empty:before {
+/* .contentArea:empty:before {
   content: attr(placeholder);
   color: #bbb;
   pointer-events: none;
-  display: block; /* Garante que o placeholder quebre a linha se precisar */
-}
+  display: block; /* Garante que o placeholder quebre a linha se precisar 
+} */
 
 /* Esconde o seletor de cor padrão do navegador para ficar só a letra "A" */
 .hiddenColorPicker {

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './style.module.css';
 import iconeGlobo from '../../assets/world-wide-global.svg';
@@ -14,6 +14,114 @@ export function NovoArtigo() {
 
   // Referência para capturar o que for digitado na div editável
   const editorRef = useRef<HTMLDivElement>(null);
+  const titleInputRef = useRef<HTMLInputElement>(null);
+
+  // Refs para controlar intervalos de digitação e permitir cancelamento
+  const titleTypingTimer = useRef<number | null>(null);
+  const contentTypingTimer = useRef<number | null>(null);
+  const restartTimer = useRef<number | null>(null);
+
+  const stopTitleTyping = () => {
+    if (titleTypingTimer.current !== null) {
+      window.clearInterval(titleTypingTimer.current);
+      titleTypingTimer.current = null;
+    }
+  };
+
+  const stopContentTyping = () => {
+    if (contentTypingTimer.current !== null) {
+      window.clearInterval(contentTypingTimer.current);
+      contentTypingTimer.current = null;
+    }
+  };
+
+  // Animação de máquina de escrever para placeholder do título e do editor
+  useEffect(() => {
+    const titleText = 'Insira o título do seu novo artigo';
+    const contentText = 'Oque iremos ensinar hoje?';
+
+    const inputEl = titleInputRef.current;
+    const editorEl = editorRef.current;
+
+    const startTyping = () => {
+      if (!inputEl || !editorEl) return;
+      // só inicia se ambos campos estiverem vazios
+      if (inputEl.value.trim() !== '' || editorEl.innerText.trim() !== '') return;
+
+      stopTitleTyping();
+      stopContentTyping();
+
+      // título
+      let ti = 1;
+      inputEl.placeholder = '';
+      titleTypingTimer.current = window.setInterval(() => {
+        if (ti <= titleText.length) {
+          inputEl.placeholder = titleText.slice(0, ti);
+          ti++;
+        } else {
+          stopTitleTyping();
+        }
+      }, 40);
+
+      // conteúdo
+      let ci = 1;
+      editorEl.setAttribute('data-placeholder', '');
+      contentTypingTimer.current = window.setInterval(() => {
+        if (ci <= contentText.length) {
+          editorEl.setAttribute('data-placeholder', contentText.slice(0, ci));
+          ci++;
+        } else {
+          stopContentTyping();
+        }
+      }, 50);
+    };
+
+    // iniciar imediatamente
+    startTyping();
+
+    // reiniciar a cada 10s se os campos ainda estiverem vazios
+    restartTimer.current = window.setInterval(() => {
+      const inEl = titleInputRef.current;
+      const edEl = editorRef.current;
+      if (!inEl || !edEl) return;
+      const isTitleEmpty = inEl.value.trim() === '';
+      const isContentEmpty = edEl.innerText.trim() === '';
+      if (isTitleEmpty && isContentEmpty) {
+        stopTitleTyping();
+        stopContentTyping();
+        startTyping();
+      }
+    }, 10000);
+
+    const onInputInteraction = () => {
+      stopTitleTyping();
+    };
+    const onEditorInteraction = () => {
+      stopContentTyping();
+    };
+
+    inputEl?.addEventListener('focus', onInputInteraction);
+    inputEl?.addEventListener('input', onInputInteraction);
+    editorEl?.addEventListener('focus', onEditorInteraction);
+    editorEl?.addEventListener('input', onEditorInteraction);
+
+    return () => {
+      stopTitleTyping();
+      stopContentTyping();
+      if (restartTimer.current !== null) {
+        window.clearInterval(restartTimer.current);
+        restartTimer.current = null;
+      }
+
+      inputEl?.removeEventListener('focus', onInputInteraction);
+      inputEl?.removeEventListener('input', onInputInteraction);
+      editorEl?.removeEventListener('focus', onEditorInteraction);
+      editorEl?.removeEventListener('input', onEditorInteraction);
+
+      if (inputEl) inputEl.placeholder = titleText;
+      if (editorEl) editorEl.setAttribute('data-placeholder', contentText);
+    };
+  }, []);
 
   // Função mágica que aplica negrito, itálico, cor, etc. no texto selecionado
   const formatText = (command: string, value?: string) => {
@@ -51,11 +159,13 @@ export function NovoArtigo() {
 
       <main className={styles.editorSection}>
         <input 
+          ref={titleInputRef}
           type="text" 
           className={styles.titleInput}
-          placeholder="Insira o título do seu novo artigo"
+          placeholder=""
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => { setTitle(e.target.value); stopTitleTyping(); }}
+          onFocus={() => stopTitleTyping()}
         />
 
         <div className={styles.editorContainer}>
