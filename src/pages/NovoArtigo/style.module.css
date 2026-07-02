@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;700&display=swap');
+
+.container {
+  min-height: 100vh;
+  background-color: #fceef5; /* Fundo rosa claro igual à imagem */
+  padding: 60px 20px;
+  font-family: 'Kodchasan', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.mainTitle {
+  font-size: 24px;
+  color: #1a1a1a;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 1px;
+}
+
+.editorSection {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* Input de Título Branco e arredondado */
+.titleInput {
+  width: 100%;
+  background-color: white;
+  border: none;
+  padding: 25px 30px;
+  border-radius: 12px;
+  font-size: 22px;
+  color: #555;
+  outline: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.titleInput::placeholder {
+  color: #aaa;
+}
+
+/* Container do Editor de Texto */
+.editorContainer {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Barra de ferramentas cinza claro */
+.toolbar {
+  background-color: #e0e0e0;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.toolGroup {
+  background-color: white;
+  padding: 5px 15px;
+  border-radius: 6px;
+  display: flex;
+  gap: 15px;
+}
+
+.toolBtn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  font-family: 'Times New Roman', serif; /* Para o estilo clássico de editor */
+  cursor: pointer;
+  color: #333;
+}
+
+/* Área de escrita */
+.contentArea {
+  width: 100%;
+  min-height: 450px;
+  padding: 30px;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 18px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.contentArea::placeholder {
+  color: #bbb;
+}
+
+/* Botão Publicar Roxo */
+.footerActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.publishButton {
+  background-color: #310062; /* Roxo escuro da imagem */
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.2s;
+}
+
+.publishButton:hover {
+  background-color: #260376;
+}
+
+.globeIcon {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.globeIcon img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
