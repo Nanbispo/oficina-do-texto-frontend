@@ -19,7 +19,7 @@
 }
 
 .backButton {
-  background: none;
+  background: transparent;
   border: none;
   font-family: 'Kodchasan', sans-serif;
   font-size: 16px;
@@ -27,13 +27,27 @@
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 0;
+  gap: 10px;
+  padding: 10px 14px;
   font-weight: bold;
+  border-radius: 10px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
 }
 
-.backButton:hover {
-  text-decoration: underline;
+/* Hover: efeito similar aos cards da Home */
+.backButton:hover,
+.backButton:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
+  background-color: #e3fffd; /* tom claro ciano como nos cards */
+  outline: none;
+}
+
+/* Imagem da seta */
+.arrow {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
 }
 
 /* Limita a largura do artigo para facilitar a leitura */

@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { usePost } from '../../hooks/usePosts';
 import styles from './style.module.css';
+import arrow from '../../assets/Arrow 1.svg'
 
 function formatDate(value?: string) {
   if (!value) {
@@ -41,7 +42,8 @@ export function Artigo() {
     <div className={styles.container}>
       <nav className={styles.navBar}>
         <button className={styles.backButton} onClick={() => navigate(-1)}>
-          &lt; Artigos
+          <img src={arrow} alt="Editar" className={styles.arrow} />
+           Artigos
         </button>
       </nav>
 
