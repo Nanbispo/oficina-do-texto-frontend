@@ -4,6 +4,7 @@ import { ArtigosCriadora } from "./pages/ArtigosCriadora";
 import { NovoArtigo } from "./pages/NovoArtigo";
 import { Home } from "./pages/Home";
 import { RequireAuth } from "./components/RequireAuth";
+import { Artigo } from "./pages/Artigo";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         {/* Rota Pública (A Home agora tem apenas a barra "/") */}
         <Route path="/" element={<Home />} />
+        <Route path="/artigo/:id" element={<Artigo />} />
 
         {/* O Login agora tem a rota "/login" */}
         <Route path="/login" element={<LoginPage />} />
@@ -20,6 +22,7 @@ function App() {
           <Route path="/ArtigosCriadora" element={<ArtigosCriadora />} />
         </Route>
         <Route path="/novo-artigo" element={<NovoArtigo />} />
+
       </Routes>
     </BrowserRouter>
   );
