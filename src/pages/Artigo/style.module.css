@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;700&display=swap');
+
+/* O fundo rosa ocupa tudo, mas o conteúdo é centralizado */
+.container {
+  min-height: 100vh;
+  background-color: #fceef5; /* Fundo global rosa clarinho */
+  font-family: 'Kodchasan', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* Barra de navegação com botão voltar */
+.navBar {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 30px;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  font-family: 'Kodchasan', sans-serif;
+  font-size: 16px;
+  color: #1a1a1a;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  font-weight: bold;
+}
+
+.backButton:hover {
+  text-decoration: underline;
+}
+
+/* Limita a largura do artigo para facilitar a leitura */
+.articleContent {
+  width: 100%;
+  max-width: 800px; /* Largura ideal para leitura no desktop */
+}
+
+.title {
+  font-size: 42px;
+  color: #1a1a1a;
+  font-weight: 400;
+  margin: 0 0 20px 0;
+  line-height: 1.2;
+}
+
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+/* Ciclo de cores nas tags via CSS puro (roxo escuro -> rosa claro) */
+.tag {
+  color: white;
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.tag:nth-child(6n+1) { background-color: #310062; }
+.tag:nth-child(6n+2) { background-color: #5a00a3; }
+.tag:nth-child(6n+3) { background-color: #f4057d; }
+.tag:nth-child(6n+4) { background-color: #f66dba; }
+.tag:nth-child(6n+5) { background-color: #fab6db; color: #310062;}
+.tag:nth-child(6n+6) { background-color: #f8e6f2; color: #310062;}
+
+/* Formatação do texto do artigo */
+.bodyText {
+  font-family: 'Times New Roman', serif; /* Fonte com serifa ótima para textos longos, comum em artigos */
+  font-size: 18px;
+  line-height: 1.8;
+  color: #1a1a1a;
+  text-align: justify;
+}
+
+.bodyText p {
+  margin: 0;
+}
+
+/* Estilização do Rodapé (Autor e Datas) */
+.footer {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 40px;
+}
+
+.footerLabel {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.authorSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.authorName {
+  font-size: 18px;
+  color: #1a1a1a;
+}
+
+.datesSection {
+  display: flex;
+  gap: 30px;
+  text-align: left;
+}
+
+.dateBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.dateValue {
+  font-size: 12px;
+  color: #333;
+}
