@@ -20,8 +20,8 @@ function App() {
         {/* Rota Privada */}
         <Route element={<RequireAuth />}>
           <Route path="/ArtigosCriadora" element={<ArtigosCriadora />} />
+          <Route path="/novo-artigo" element={<NovoArtigo />} />
         </Route>
-        <Route path="/novo-artigo" element={<NovoArtigo />} />
 
       </Routes>
     </BrowserRouter>
