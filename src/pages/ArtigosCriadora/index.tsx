@@ -14,6 +14,8 @@ export function ArtigosCriadora() {
   const { data: posts = [], isLoading, error } = usePosts();
   const navigate = useNavigate();
 
+  const openArticle = (id: number | string) => navigate(`/artigo/${id}`);
+
   if (isLoading) {
     return <div className={styles.container} style={{ padding: '40px', textAlign: 'center' }}>Carregando artigos...</div>;
   }
@@ -42,35 +44,51 @@ export function ArtigosCriadora() {
 
         <div className={styles.grid}>
           {posts.map((post) => (
-            <article key={post.id} className={styles.card}>
-              
+            <article
+              key={post.id}
+              className={styles.card}
+              role="button"
+              tabIndex={0}
+              onClick={() => openArticle(post.id)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  openArticle(post.id);
+                }
+              }}
+              aria-label={`Abrir artigo ${post.title}`}
+            >
               <div className={styles.cardHeader}>
-                {/* Nome correto do json: title */}
                 <h2 className={styles.cardTitle}>{post.title}</h2>
-                
+
                 {isCriadora && (
                   <div className={styles.actionsGrid}>
-                    <button className={`${styles.actionIcon} ${styles.editBtn}`} title="Editar">
+                    <button
+                      className={`${styles.actionIcon} ${styles.editBtn}`}
+                      title="Editar"
+                      onClick={(event) => event.stopPropagation()}
+                    >
                       <img src={lapisIcon} alt="Editar" className={styles.iconImage} />
                     </button>
-                    <button className={`${styles.actionIcon} ${styles.deleteBtn}`} title="Excluir">
+                    <button
+                      className={`${styles.actionIcon} ${styles.deleteBtn}`}
+                      title="Excluir"
+                      onClick={(event) => event.stopPropagation()}
+                    >
                       <img src={lixeiraIcon} alt="Excluir" className={styles.iconImage} />
                     </button>
                   </div>
                 )}
               </div>
 
-              {/* Nome correto do json: content */}
               <p className={styles.cardBody}>
                 {post.content.length > 140 ? `${post.content}...` : post.content}
               </p>
               
-              {/* Nome correto do json: author */}
               <div className={styles.cardAuthor}>
                 Autor:<br /><strong>{post.author}</strong>
               </div>
 
-              {/* O Go já entrega o array de tags, é só mapear */}
               <div className={styles.tagsRow}>
                 {post.tags?.slice(0, 2).map((tag) => (
                   <span key={tag.id} className={`${styles.tag} ${styles.tagDefault}`}>
