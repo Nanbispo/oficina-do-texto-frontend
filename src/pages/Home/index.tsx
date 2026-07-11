@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { usePosts } from '../../hooks/usePosts'; 
 // Reutilizamos EXATAMENTE o mesmo CSS da página da criadora para manter o padrão
 import styles from '../ArtigosCriadora/style.module.css';
@@ -34,38 +35,45 @@ export function Home() {
 
         <div className={styles.grid}>
           {posts.map((post) => (
-            <article key={post.id} className={styles.card}>
-              
-              <div className={styles.cardHeader}>
-                <h2 className={styles.cardTitle}>{post.title}</h2>
-                {/* Lápis e Lixeira removidos para os visitantes */}
-              </div>
-
-              <p className={styles.cardBody}>
-                {post.content.length > 140 ? `${post.content}...` : post.content}
-              </p>
-              
-              <div className={styles.cardAuthor}>
-                Autor:<br /><strong>{post.author}</strong>
-              </div>
-
-              {/* LÓGICA DAS TAGS: Mostra as 2 primeiras e conta o resto */}
-              <div className={styles.tagsRow}>
-                {post.tags?.slice(0, 2).map((tag) => (
-                  <span key={tag.id} className={styles.tag}>
-                    {tag.name}
-                  </span>
-                ))}
+            <Link
+              key={post.id}
+              to={`/artigo/${post.id}`}
+              className={styles.cardLink}
+              aria-label={`Abrir artigo ${post.title}`}
+            >
+              <article className={styles.card}>
                 
-                {/* Se houver mais de 2 tags, renderiza o botão cinza com a diferença */}
-                {post.tags && post.tags.length > 2 && (
-                  <span className={styles.tagCounter}>
-                    +{post.tags.length - 2}
-                  </span>
-                )}
-              </div>
+                <div className={styles.cardHeader}>
+                  <h2 className={styles.cardTitle}>{post.title}</h2>
+                  {/* Lápis e Lixeira removidos para os visitantes */}
+                </div>
 
-            </article>
+                <p className={styles.cardBody}>
+                  {post.content.length > 140 ? `${post.content}...` : post.content}
+                </p>
+                
+                <div className={styles.cardAuthor}>
+                  Autor:<br /><strong>{post.author}</strong>
+                </div>
+
+                {/* LÓGICA DAS TAGS: Mostra as 2 primeiras e conta o resto */}
+                <div className={styles.tagsRow}>
+                  {post.tags?.slice(0, 2).map((tag) => (
+                    <span key={tag.id} className={styles.tag}>
+                      {tag.name}
+                    </span>
+                  ))}
+                  
+                  {/* Se houver mais de 2 tags, renderiza o botão cinza com a diferença */}
+                  {post.tags && post.tags.length > 2 && (
+                    <span className={styles.tagCounter}>
+                      +{post.tags.length - 2}
+                    </span>
+                  )}
+                </div>
+
+              </article>
+            </Link>
           ))}
         </div>
       </main>

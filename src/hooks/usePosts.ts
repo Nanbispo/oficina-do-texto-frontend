@@ -1,31 +1,48 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../api/client';
-
-// Tipagem baseada perfeitamente na sua struct Go
-export interface Tag {
-  id: number;     // Assumindo que a sua struct de Tag tem ID
-  name: string;  // e Title
-}
-
-export interface Post {
-  authorId: number;
-  id: number;
-  title: string;
-  content: string;
-  author: string;
-  tags: Tag[];
-  createdAt: string;
-  updatedAt: string;
-  published: boolean;
-}
+import { type Post } from '../types';
 
 export function usePosts() {
   return useQuery({
     queryKey: ['posts'],
     queryFn: async () => {
-      // O Go já manda o JSON perfeito, só precisamos ler
       const { data } = await api.get<Post[]>('/posts');
       return data;
+    },
+  });
+}
+
+export function usePost(id?: string | number) {
+  return useQuery({
+    queryKey: ['post', id],
+    enabled: id !== undefined && id !== null && id !== '',
+    queryFn: async () => {
+      const postId = String(id);
+
+      const endpoints = [`/posts/${postId}`, `/post/${postId}`];
+
+      for (const endpoint of endpoints) {
+        try {
+          const { data } = await api.get<Post>(endpoint);
+          if (data) {
+            return data;
+          }
+        } catch (error) {
+          const status = (error as { response?: { status?: number } })?.response?.status;
+          if (status !== 404 && status !== 405) {
+            throw error;
+          }
+        }
+      }
+
+      const { data: posts } = await api.get<Post[]>('/posts');
+      const post = posts.find((item) => String(item.id) === postId);
+
+      if (!post) {
+        throw new Error('Artigo não encontrado.');
+      }
+
+      return post;
     },
   });
 }
