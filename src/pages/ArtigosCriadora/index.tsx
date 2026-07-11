@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePosts } from '../../hooks/usePosts'; 
 import styles from './style.module.css';
@@ -104,4 +103,3 @@ export function ArtigosCriadora() {
 //     Novo Artigo
 //   </button>
 // }
-

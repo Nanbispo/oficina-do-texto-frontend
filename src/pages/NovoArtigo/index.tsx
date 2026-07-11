@@ -1,10 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
 import styles from './style.module.css';
 import iconeGlobo from '../../assets/world-wide-global.svg';
 
 export function NovoArtigo() {
-  const navigate = useNavigate();
   const [title, setTitle] = useState('');
   
   // Estados para o menu de Tags

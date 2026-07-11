@@ -1,4 +1,3 @@
-import React from 'react';
 import { usePosts } from '../../hooks/usePosts'; 
 // Reutilizamos EXATAMENTE o mesmo CSS da página da criadora para manter o padrão
 import styles from '../ArtigosCriadora/style.module.css';

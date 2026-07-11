@@ -3,6 +3,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { ArtigosCriadora } from "./pages/ArtigosCriadora";
 import { NovoArtigo } from "./pages/NovoArtigo";
 import { Home } from "./pages/Home";
+import { RequireAuth } from "./components/RequireAuth";
 
 function App() {
   return (
@@ -15,7 +16,9 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
 
         {/* Rota Privada */}
-        <Route path="/ArtigosCriadora" element={<ArtigosCriadora />} />
+        <Route element={<RequireAuth />}>
+          <Route path="/ArtigosCriadora" element={<ArtigosCriadora />} />
+        </Route>
         <Route path="/novo-artigo" element={<NovoArtigo />} />
       </Routes>
     </BrowserRouter>

@@ -16,7 +16,7 @@ export function LoginPage() {
     login({ username, password }, {
       onSuccess: () => {
         alert('Login efetuado com sucesso!');
-        navigate('/dashboard');
+        navigate('/ArtigosCriadora');
       },
       onError: () => alert('Falha no login.')
     });
