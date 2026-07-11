@@ -8,7 +8,7 @@ export default defineConfig({
     proxy: {
       // Intercepta qualquer chamada para http://localhost:5173/api e manda para o Go
       '/api': {
-        target: 'http://localhost:8081', // Certifique-se de que seu Go roda nesta porta
+        target: 'https://app-go-389874839960.us-central1.run.app', // Certifique-se de que seu Go roda nesta porta
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
