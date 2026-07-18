@@ -139,7 +139,10 @@ label.toolBtn:active {
 /* Área de escrita */
 .contentArea {
   width: 100%;
+  max-width: 100%;       /* 🌟 Garante que ela respeite o tamanho do container pai */
   min-height: 450px;
+  max-height: 650px;     /* 🌟 Opcional: Define um limite vertical antes de rolar */
+  overflow-y: auto;      /* 🌟 Adiciona scroll vertical se o texto for gigante */
   padding: 30px;
   border: none;
   outline: none;
@@ -147,6 +150,12 @@ label.toolBtn:active {
   font-size: 18px;
   color: #444;
   line-height: 1.6;
+  box-sizing: border-box; /* 🌟 Garante que o padding não aumente o tamanho real da div */
+  
+  /* 🌟 CORREÇÃO CRÍTICA PARA QUEBRA DE TEXTO */
+  word-break: break-word; 
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .contentArea:empty:before {

@@ -1,6 +1,7 @@
 /* src/pages/ArtigosCriadora/styles.module.css */ 
 @import url('https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap');
+
 /* 1. ESTRUTURA GLOBAL DA PÁGINA */ 
 .container { 
   min-height: 100vh; 
@@ -13,16 +14,20 @@
 /* 2. BANNER SUPERIOR (A foto com os estudos) */ 
 .banner { 
   width: 100%; 
-  height: 380px; 
-  background-color: #dcd0d6; /* Cor de fundo provisória */ 
+  min-height: 380px; 
+  background-color: #dcd0d6; 
   background-image: url('../../assets/Referenciaestudo.svg'); 
   background-size: cover; 
   background-position: center; 
+  background-repeat: no-repeat;
   display: flex; 
   flex-direction: column; 
   align-items: center; 
   justify-content: center; 
   gap: 20px; 
+
+  padding: 40px 20px; 
+  box-sizing: border-box;
 } 
 
 /* O retângulo com o gradiente roxo -> rosa */ 
@@ -77,13 +82,15 @@
   justify-content: space-between; 
   align-items: center; 
   margin-bottom: 40px; 
+  position: relative; 
+  z-index: 10;        
 } 
 
 .title { 
   font-size: 56px; 
   color: #000000; 
   margin: 0; 
-  font-weight: normal; /* Fonte leve e elegante */ 
+  font-weight: normal; 
   font-family: 'Kodchasan', sans-serif;
 } 
 
@@ -120,7 +127,7 @@
 /* 4. GRID E CARDS DE ARTIGOS */ 
 .grid { 
   display: grid; 
-  grid-template-columns: repeat(3, 1fr); /* 3 colunas perfeitas de acordo com a imagem */ 
+  grid-template-columns: repeat(3, 1fr); 
   gap: 30px; 
 } 
 
@@ -145,37 +152,28 @@
   box-shadow: 0 0 0 3px rgba(244, 5, 125, 0.25);
 }
 
-/* Card Individual (Fundo ciano claro) */ 
+/* Card Individual */ 
 .card { 
-  background-color: #ebfffe; /* Tom exato de azul/ciano bem clarinho */ 
+  background-color: #ebfffe; 
   border-radius: 8px; 
   padding: 30px; 
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06); 
   display: flex; 
   flex-direction: column; 
   position: relative; 
-  width: 300px;         /* Força todos a terem exatamente a mesma largura */
-  height: 250px;        /* Força todos a terem a mesma altura */
-  display: flex;
-  flex-direction: column;
+  width: 300px;         
+  height: 250px;        
   justify-content: space-between;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
   cursor: pointer;
 } 
-
-.card:hover,
-.card:focus-visible {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
-  background-color: #e3fffd;
-}
 
 .cardHeader { 
   display: flex; 
   justify-content: space-between; 
   align-items: flex-start; 
   margin-bottom: 15px; 
-  gap: 12px; /* Adiciona um espaço seguro entre o título e os botões */
+  gap: 12px; 
 } 
 
 .cardTitle { 
@@ -183,23 +181,18 @@
   color: #1a1a1a; 
   margin: 0; 
   font-weight: normal; 
-  
-  /* A MAGIA QUE FALTAVA PARA O FLEXBOX NÃO ESTICAR O CARD */
   flex: 1;
   min-width: 30%; 
-  
-  /* TRUQUE PARA CORTAR O TEXTO E ADICIONAR "..." */
   white-space: nowrap;       
   overflow: hidden;          
   text-overflow: ellipsis;
   font-family: 'Kodchasan', sans-serif;
 } 
 
-/* Botões de Ação da Criadora (Caneta e Lixeira) */ 
 .actionsGrid { 
   display: flex; 
   gap: 8px; 
-  flex-shrink: 0; /* Impede que os botões diminuam de tamanho quando o título for gigante */
+  flex-shrink: 0; 
 }
 .actionIcon { 
   width: 34px; 
@@ -217,15 +210,9 @@
   transform: scale(0.92); 
 } 
 
-/* --- HOVER DOS BOTÕES --- */ 
-.editBtn:hover { 
-  background-color: #d13b85; 
-} 
-.deleteBtn:hover { 
-  background-color: #dd6161; 
-} 
+.editBtn:hover { background-color: #d13b85; } 
+.deleteBtn:hover { background-color: #dd6161; } 
 
-/* --- TRATAMENTO DOS ÍCONES SVG --- */ 
 .iconImage { 
   width: 18px; 
   height: 18px; 
@@ -236,7 +223,6 @@
   filter: brightness(0) invert(1); 
 } 
 
-/* Texto do artigo */ 
 .cardBody { 
   font-size: 14px; 
   color: #2b2b2b; 
@@ -244,18 +230,16 @@
   margin: 0 0 25px 0; 
   font-weight: 400; 
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Limita a exatamente 3 linhas */
+  -webkit-line-clamp: 3; 
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-
-  /* QUEBRA DE PALAVRAS GIGANTES (Evita o vazamento lateral do seu teste) */
   overflow-wrap: break-word;
   word-break: break-word;
 } 
 
 .tagCounter {
-  background-color: #718096; /* Cinza chumbo/médio */
+  background-color: #718096; 
   color: #FFFFFF;
   padding: 6px 12px;
   border-radius: 6px;
@@ -266,7 +250,6 @@
   justify-content: center;
 }
 
-/* Informações do Autor */ 
 .cardAuthor { 
   font-size: 13px; 
   color: #555; 
@@ -278,12 +261,10 @@
   font-size: 14px; 
 } 
 
-/* ------------------------------------- */
-/* 5. SEÇÃO DE TAGS COM CORES DINÂMICAS  */
-/* ------------------------------------- */
+/* 5. SEÇÃO DE TAGS COM CORES DINÂMICAS */
 .tagsRow { 
   display: flex; 
-  flex-wrap: wrap; /* Evita quebrar o layout se o artigo tiver 10 tags */
+  flex-wrap: wrap; 
   gap: 8px; 
   align-items: center; 
   margin-top: auto; 
@@ -298,48 +279,16 @@
   align-items: center;
   justify-content: center;
   font-family: 'Kodchasan', sans-serif;
-  font-weight: 900; /* Peso Regular */
+  font-weight: 900; 
 } 
 
-/* Ciclo automático das 6 cores da paleta usando nth-child */
+.tag:nth-child(6n + 1) { background-color: #260376; color: #FFFFFF; }
+.tag:nth-child(6n + 2) { background-color: #43007C; color: #FFFFFF; }
+.tag:nth-child(6n + 3) { background-color: #F4057D; color: #FFFFFF; }
+.tag:nth-child(6n + 4) { background-color: #F66DBA; color: #FFFFFF; }
+.tag:nth-child(6n + 5) { background-color: #FAB6DB; color: #260376; }
+.tag:nth-child(6n + 0) { background-color: #F8E6F2; color: #260376; }
 
-/* Cor 1: Roxo muito escuro */
-.tag:nth-child(6n + 1) {
-  background-color: #260376;
-  color: #FFFFFF;
-}
-
-/* Cor 2: Roxo escuro */
-.tag:nth-child(6n + 2) {
-  background-color: #43007C;
-  color: #FFFFFF;
-}
-
-/* Cor 3: Rosa forte (Carmim) */
-.tag:nth-child(6n + 3) {
-  background-color: #F4057D;
-  color: #FFFFFF;
-}
-
-/* Cor 4: Rosa médio */
-.tag:nth-child(6n + 4) {
-  background-color: #F66DBA;
-  color: #FFFFFF;
-}
-
-/* Cor 5: Rosa claro */
-.tag:nth-child(6n + 5) {
-  background-color: #FAB6DB;
-  color: #260376; /* Texto escuro para contraste no fundo claro */
-}
-
-/* Cor 6: Rosa muito claro */
-.tag:nth-child(6n + 0) {
-  background-color: #F8E6F2;
-  color: #260376; /* Texto escuro para contraste no fundo claro */
-}
-
-/* Tag "+2" cinza (caso precise manter) */ 
 .tagMore { 
   background-color: #4a5568; 
   color: #FFFFFF;
@@ -355,10 +304,9 @@
 }
 
 /* ==========================================================================
-   6. NOVAS ESTILIZAÇÕES: BARRA DE PESQUISA ANIMADA E FILTROS AVANÇADOS
+   6. NOVAS ESTILIZAÇÕES: BARRA DE PESQUISA ANIMADA E FILTROS EM LISTA INTERNA
    ========================================================================== */
 
-/* Container que envolve a barra de pesquisa e o ícone de lupa */
 .searchContainer {
   display: flex;
   align-items: center;
@@ -371,13 +319,11 @@
   border: 1px solid transparent;
 }
 
-/* Quando ativa, ganha uma bordinha sutil com a cor da paleta */
 .searchContainerActive {
   border-color: #f66dba;
   box-shadow: 0 4px 14px rgba(246, 109, 186, 0.2);
 }
 
-/* O input que desliza e cresce */
 .searchInput {
   width: 0;
   opacity: 0;
@@ -388,19 +334,15 @@
   font-family: 'Inter', sans-serif;
   color: #1a1a1a;
   background: transparent;
-  transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
-              opacity 0.3s ease, 
-              padding 0.4s ease;
+  transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, padding 0.4s ease;
 }
 
-/* Classe aplicada quando a lupa é clicada (faz deslizar expandindo para 200px) */
 .searchInputActive {
   width: 200px;
   opacity: 1;
   padding: 0 12px 0 6px;
 }
 
-/* Botão da lupa */
 .searchIconButton {
   background: none;
   border: none;
@@ -409,16 +351,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #260376; /* Roxo Escuro */
+  color: #260376; 
   border-radius: 50%;
   transition: background-color 0.2s ease;
 }
 
-.searchIconButton:hover {
-  background-color: #f8e6f2;
-}
+.searchIconButton:hover { background-color: #f8e6f2; }
 
-/* Dropdown Suspenso do Filtro Avançado */
+/* O Card do Filtro Suspenso (Desktop) */
 .filterDropdown {
   position: absolute;
   top: 65px;
@@ -426,33 +366,22 @@
   background-color: #ffffff;
   border: 1px solid #fab6db;
   border-radius: 16px;
-  padding: 20px;
+  padding: 16px;
   box-shadow: 0 10px 25px rgba(38, 3, 118, 0.1);
-  zIndex: 100;
+  z-index: 100; 
   width: 240px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   animation: fadeInFilter 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-@keyframes fadeInFilter {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
+/* Preservados os estilos clássicos de Select/Group */
 .filterGroup {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
-
 .filterGroup label {
   font-size: 12px;
   font-weight: 700;
@@ -461,7 +390,6 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
-
 .filterSelect {
   padding: 10px 12px;
   border-radius: 8px;
@@ -474,12 +402,54 @@
   cursor: pointer;
   transition: border-color 0.2s;
 }
+.filterSelect:focus { border-color: #f4057d; }
 
-.filterSelect:focus {
-  border-color: #f4057d;
+/* Estrutura da Nova Lista Interna do Card */
+.filterSectionTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #43007C;
+  font-family: 'Kodchasan', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+  margin-bottom: 2px;
+  padding-left: 4px;
+}
+.filterSectionTitle:first-child { margin-top: 0; }
+
+.filterList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-/* Botão de limpar os filtros */
+.filterItem {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #1a1a1a;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.filterItem:hover {
+  background-color: #f8e6f2;
+  color: #f4057d;
+  font-weight: 500;
+}
+.filterItemActive {
+  background-color: #260376;
+  color: #ffffff;
+  font-weight: 600;
+}
+
 .clearFilterBtn {
   margin-top: 4px;
   padding: 10px;
@@ -493,8 +463,111 @@
   font-family: 'Kodchasan', sans-serif;
   transition: background-color 0.2s, color 0.2s;
 }
+.clearFilterBtn:hover { background-color: #f4057d; color: #ffffff; }
 
-.clearFilterBtn:hover {
-  background-color: #f4057d;
-  color: #ffffff;
+/* ==========================================================================
+   7. RESPONSIVIDADE (MEDIA QUERIES) com Lista Interna Fluida
+   ========================================================================== */
+
+/* --- TABLETS E TELAS MÉDIAS (Até 1024px) --- */
+@media (max-width: 1024px) {
+  .banner {
+    min-height: 320px;
+    padding: 0 24px;
+  }
+  .gradientBadge {
+    padding: 30px 60px;
+    font-size: 26px;
+  }
+  .title { font-size: 46px; }
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    justify-items: center; 
+  }
+  .card { max-width: 100%; }
+} 
+
+/* --- SMARTPHONES GRANDES E TABLETS EM RETRATO (Até 768px) --- */
+@media (max-width: 768px) {
+  .banner {
+    height: auto;
+    min-height: 260px;
+    padding: 60px 10px;
+    gap: 15px;
+  }
+  .gradientBadge {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 24px 20px; 
+    font-size: 20px;
+    border-radius: 16px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+  .newArticleButton {
+    width: 100%;
+    max-width: 280px;
+    padding: 12px 20px;
+    font-size: 15px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+  }
+  .title { font-size: 38px; }
+
+  /* CONCEITO DE LISTA INTERNA MOBILE: Transforma o dropdown flutuante em bloco integrado */
+  .filterDropdown {
+    position: relative; /* Sai do modo flutuante e entra no fluxo natural */
+    top: 0;
+    right: auto;
+    width: 100%; /* Ocupa toda a largura da linha */
+    max-width: 100%;
+    margin-top: 10px;
+    box-shadow: 0 6px 16px rgba(38, 3, 118, 0.06); /* Sombra mais sutil por estar integrada */
+  }
+
+  /* Melhora a área de clique dos itens da lista no touch screen */
+  .filterItem {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
 }
+
+/* --- SMARTPHONES PEQUENOS (Até 480px) --- */
+@media (max-width: 480px) {
+  .container { padding-bottom: 20px; }
+  .banner { padding: 50px 12px; }
+  .gradientBadge { padding: 16px 14px; font-size: 17px; border-radius: 12px; }
+  .newArticleButton { max-width: 240px; padding: 10px 16px; font-size: 14px; border-radius: 10px; }
+  .contentSection { margin-top: 30px; padding: 0 12px; }
+  .title { font-size: 28px; width: 100%; text-align: center; }
+  
+  .headerRow { align-items: center; }
+  .grid { grid-template-columns: 1fr; gap: 16px; }
+  .card { max-width: 100%; height: auto; min-height: 220px; padding: 16px; }
+  .cardTitle { font-size: 20px; }
+  .searchInputActive { width: 140px; }
+
+  /* Mantém o card como lista interna perfeitamente encaixada na caixinha mobile */
+  .filterDropdown {
+    position: relative;
+    top: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 14px;
+  }
+
+  .footer { margin-top: 40px; font-size: 12px; }
+}
+
+
