@@ -353,3 +353,148 @@
   margin-top: 80px; 
   letter-spacing: 0.5px; 
 }
+
+/* ==========================================================================
+   6. NOVAS ESTILIZAÇÕES: BARRA DE PESQUISA ANIMADA E FILTROS AVANÇADOS
+   ========================================================================== */
+
+/* Container que envolve a barra de pesquisa e o ícone de lupa */
+.searchContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: white;
+  border-radius: 24px;
+  padding: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  border: 1px solid transparent;
+}
+
+/* Quando ativa, ganha uma bordinha sutil com a cor da paleta */
+.searchContainerActive {
+  border-color: #f66dba;
+  box-shadow: 0 4px 14px rgba(246, 109, 186, 0.2);
+}
+
+/* O input que desliza e cresce */
+.searchInput {
+  width: 0;
+  opacity: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+  background: transparent;
+  transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity 0.3s ease, 
+              padding 0.4s ease;
+}
+
+/* Classe aplicada quando a lupa é clicada (faz deslizar expandindo para 200px) */
+.searchInputActive {
+  width: 200px;
+  opacity: 1;
+  padding: 0 12px 0 6px;
+}
+
+/* Botão da lupa */
+.searchIconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #260376; /* Roxo Escuro */
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.searchIconButton:hover {
+  background-color: #f8e6f2;
+}
+
+/* Dropdown Suspenso do Filtro Avançado */
+.filterDropdown {
+  position: absolute;
+  top: 65px;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #fab6db;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(38, 3, 118, 0.1);
+  zIndex: 100;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeInFilter 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes fadeInFilter {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filterGroup label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #43007C;
+  font-family: 'Kodchasan', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filterSelect {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #fab6db;
+  background-color: #fff;
+  font-size: 13px;
+  color: #1a1a1a;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.filterSelect:focus {
+  border-color: #f4057d;
+}
+
+/* Botão de limpar os filtros */
+.clearFilterBtn {
+  margin-top: 4px;
+  padding: 10px;
+  background-color: #f8e6f2;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #f4057d;
+  font-family: 'Kodchasan', sans-serif;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.clearFilterBtn:hover {
+  background-color: #f4057d;
+  color: #ffffff;
+}
