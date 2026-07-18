@@ -57,7 +57,7 @@
 .editorContainer {
   background-color: white;
   border-radius: 12px;
-  overflow: hidden;
+  overflow: visible;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
@@ -69,6 +69,8 @@
   padding: 10px 20px;
   display: flex;
   justify-content: flex-end;
+  position: relative;
+  z-index: 1;
 }
 
 .toolGroup {
@@ -173,19 +175,35 @@
 
 .tagDropdown {
   position: absolute;
-  top: 40px; /* Posiciona logo abaixo da barra de ferramentas */
-  left: 0;
+  top: 58px;
+  right: 0;
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-  padding: 15px;
-  width: 220px;
-  z-index: 10;
+  border-radius: 16px;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.18);
+  padding: 18px;
+  width: 280px;
+  z-index: 30;
   cursor: default;
 }
 
+.tagDropdown::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  right: 18px;
+  width: 18px;
+  height: 18px;
+  background-color: white;
+  transform: rotate(45deg);
+  box-shadow: -2px -2px 4px rgba(0,0,0,0.06);
+}
+
+.tagWrapper {
+  position: relative;
+}
+
 .tagDropdownTitle {
-  margin: 0 0 10px 0;
+  margin: 0 0 12px 0;
   font-size: 14px;
   color: #333;
   font-weight: bold;
@@ -199,21 +217,90 @@
 
 .tagDropdownInput {
   flex: 1;
-  padding: 6px 10px;
+  padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
   outline: none;
   font-family: inherit;
 }
 
-.tagAddBtn {
-  background-color: #310062;
+.suggestionList {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.suggestionItem {
+  width: 100%;
+  text-align: left;
+  background-color: #f9f5ff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: #310062;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.suggestionItem:hover {
+  background-color: #ece0ff;
+}
+
+.noSuggestionsText {
+  margin: 0 0 10px 0;
+  color: #666;
+  font-size: 13px;
+}
+
+.createTagSection {
+  display: flex;
+  justify-content: stretch;
+}
+
+.createTagButton {
+  width: 100%;
+  background-color: #13a10b;
   color: white;
   border: none;
-  border-radius: 4px;
-  width: 30px;
-  cursor: pointer;
+  border-radius: 8px;
+  padding: 10px 12px;
   font-weight: bold;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.createTagButton:hover {
+  filter: brightness(1.05);
+}
+
+.selectedTagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0 16px;
+  margin-bottom: 8px;
+}
+
+.selectedTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f0e9ff;
+  color: #310062;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 14px;
+  border: 1px solid #d8c7ff;
+  box-shadow: inset 0 0 0 1px rgba(49, 0, 98, 0.08);
+}
+
+.selectedTagRemove {
+  background: none;
+  border: none;
+  color: #310062;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
 }
 
 .addedTags {
