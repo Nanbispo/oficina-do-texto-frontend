@@ -1,19 +1,22 @@
-import axios from 'axios'
+import axios from 'axios';
 
-export const api = axios.create ({
-    baseURL: '/api'
+// 1. Criação da instância única com a URL dinâmica do Vite
+export const api = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080',
 });
 
-
-api.interceptors.request.use((config) => {
+// 2. Interceptor para injetar o token JWT em todas as requisições
+api.interceptors.request.use(
+  (config) => {
     const token = localStorage.getItem('@App:token');
 
     if (token) {
-        config.headers.Authorization = `Bearer ${token}`
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;
-},
-(error) => {
+  },
+  (error) => {
     return Promise.reject(error);
-});
+  }
+);
