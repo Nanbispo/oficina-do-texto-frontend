@@ -36,6 +36,18 @@ export function NovoArtigo() {
 
   const canCreateTag = normalizedInput !== '' && !existingTagMatch;
 
+  const tagColorScheme = [
+    { backgroundColor: '#310062', color: '#ffffff' },
+    { backgroundColor: '#5a00a3', color: '#ffffff' },
+    { backgroundColor: '#f4057d', color: '#ffffff' },
+    { backgroundColor: '#f66dba', color: '#ffffff' },
+    { backgroundColor: '#fab6db', color: '#310062' },
+    { backgroundColor: '#f8e6f2', color: '#310062' },
+  ];
+
+  const getTagStyle = (index: number) =>
+    tagColorScheme[index % tagColorScheme.length];
+
   // Referência para capturar o que for digitado na div editável
   const editorRef = useRef<HTMLDivElement>(null);
   const titleInputRef = useRef<HTMLInputElement>(null);
@@ -213,8 +225,12 @@ export function NovoArtigo() {
 
         {selectedTags.length > 0 && (
           <div className={styles.selectedTagsContainer}>
-            {selectedTags.map((tag) => (
-              <div key={tag.id} className={styles.selectedTag}>
+            {selectedTags.map((tag, index) => (
+              <div
+                key={tag.id}
+                className={styles.selectedTag}
+                style={getTagStyle(index)}
+              >
                 <span>{tag.name}</span>
                 <button
                   type="button"
