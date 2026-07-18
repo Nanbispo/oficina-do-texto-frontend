@@ -214,7 +214,7 @@ export function ArtigosCriadora() {
               const resumo = textoLimpo.length > 140 ? `${textoLimpo.slice(0, 140)}...` : textoLimpo;
 
               const nomeAutor = post.author && typeof post.author === 'object' 
-                ? (post.author.name || post.author.username || 'Autor Desconhecido') 
+                ? ((post.author as any).name || (post.author as any).username || 'Autor Desconhecido') 
                 : (post.author || 'Autor Desconhecido');
 
               return (
