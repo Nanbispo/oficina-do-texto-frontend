@@ -11,6 +11,11 @@ export function NovoArtigo() {
   const [showTagMenu, setShowTagMenu] = useState(false);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const [newTagInput, setNewTagInput] = useState('');
+  const [activeCommands, setActiveCommands] = useState({
+    bold: false,
+    italic: false,
+    underline: false,
+  });
 
   const queryClient = useQueryClient();
   const { data: availableTags = [] } = useQuery<Tag[]>({
@@ -141,6 +146,14 @@ export function NovoArtigo() {
     editorEl?.addEventListener('focus', onEditorInteraction);
     editorEl?.addEventListener('input', onEditorInteraction);
 
+    const handleSelectionChange = () => {
+      if (document.activeElement === editorEl) {
+        updateActiveCommands();
+      }
+    };
+
+    document.addEventListener('selectionchange', handleSelectionChange);
+
     return () => {
       stopTitleTyping();
       stopContentTyping();
@@ -153,6 +166,7 @@ export function NovoArtigo() {
       inputEl?.removeEventListener('input', onInputInteraction);
       editorEl?.removeEventListener('focus', onEditorInteraction);
       editorEl?.removeEventListener('input', onEditorInteraction);
+      document.removeEventListener('selectionchange', handleSelectionChange);
 
       if (inputEl) inputEl.placeholder = titleText;
       if (editorEl) editorEl.setAttribute('data-placeholder', contentText);
@@ -160,9 +174,17 @@ export function NovoArtigo() {
   }, []);
 
   // Função mágica que aplica negrito, itálico, cor, etc. no texto selecionado
+  const updateActiveCommands = () => {
+    setActiveCommands({
+      bold: document.queryCommandState('bold'),
+      italic: document.queryCommandState('italic'),
+      underline: document.queryCommandState('underline'),
+    });
+  };
+
   const formatText = (command: string, value?: string) => {
     document.execCommand(command, false, value);
-    // Volta o foco para o texto para você continuar digitando
+    updateActiveCommands();
     editorRef.current?.focus(); 
   };
 
@@ -251,7 +273,8 @@ export function NovoArtigo() {
               {/* Botão T - Abre o menu de Tags */}
               <div className={styles.tagWrapper}>
                 <button 
-                  className={styles.toolBtn} 
+                  className={`${styles.toolBtn} ${showTagMenu ? styles.toolBtnActive : ''}`}
+                  aria-pressed={showTagMenu}
                   onClick={() => setShowTagMenu(!showTagMenu)}
                 >
                   T
@@ -308,26 +331,35 @@ export function NovoArtigo() {
               </div>
 
               {/* Botão B - Negrito */}
-              <button className={styles.toolBtn} onClick={() => formatText('bold')}>
+              <button
+                className={`${styles.toolBtn} ${activeCommands.bold ? styles.toolBtnActive : ''}`}
+                onClick={() => formatText('bold')}
+                aria-pressed={activeCommands.bold}
+              >
                 B
               </button>
               
               {/* Botão I - Itálico */}
-              <button className={styles.toolBtn} onClick={() => formatText('italic')}>
+              <button
+                className={`${styles.toolBtn} ${activeCommands.italic ? styles.toolBtnActive : ''}`}
+                onClick={() => formatText('italic')}
+                aria-pressed={activeCommands.italic}
+              >
                 I
               </button>
               
               {/* Botão U - Sublinhado */}
               <button 
-                className={styles.toolBtn} 
+                className={`${styles.toolBtn} ${activeCommands.underline ? styles.toolBtnActive : ''}`} 
                 style={{ textDecoration: 'underline' }}
                 onClick={() => formatText('underline')}
+                aria-pressed={activeCommands.underline}
               >
                 U
               </button>
               
               {/* Botão A - Cor (Um input disfarçado de botão) */}
-              <label className={styles.toolBtn} style={{ borderBottom: '2px solid black', height: '24px', cursor: 'pointer' }}>
+              <label className={`${styles.toolBtn} ${styles.colorToolBtn}`}>
                 A
                 <input 
                   type="color" 
