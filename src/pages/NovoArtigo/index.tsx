@@ -1,5 +1,5 @@
 import { useMemo, useState, useRef, useEffect } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { api } from '../../api/client';
 import { type Tag } from '../../types';
 import styles from './style.module.css';
@@ -7,7 +7,6 @@ import iconeGlobo from '../../assets/world-wide-global.svg';
 
 export function NovoArtigo() {
   const [title, setTitle] = useState('');
-  
   const [showTagMenu, setShowTagMenu] = useState(false);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const [newTagInput, setNewTagInput] = useState('');
@@ -18,6 +17,8 @@ export function NovoArtigo() {
   });
 
   const queryClient = useQueryClient();
+
+  // --- BUSCA DE TAGS (GET /tags - Sem autenticação conforme doc) ---
   const { data: availableTags = [] } = useQuery<Tag[]>({
     queryKey: ['tags'],
     queryFn: async () => {
@@ -26,7 +27,37 @@ export function NovoArtigo() {
     },
   });
 
+  // --- MUTATION AJUSTADA COM A TIPAGEM CORRETA DOS OBJETOS DE TAGS ---
+  const { mutateAsync: publicarArtigo, isPending: estaPublicando } = useMutation({
+    mutationFn: async (novoPost: { 
+      title: string; 
+      content: string; 
+      published: boolean; 
+      tags: Array<{ id: number; name: string; title: string }> // Corrigido aqui para aceitar objetos
+    }) => {
+      const { data } = await api.post('/posts', novoPost);
+      return data;
+    },
+    onSuccess: () => {
+      alert('Artigo publicado com sucesso!');
+      setTitle('');
+      if (editorRef.current) editorRef.current.innerHTML = '';
+      setSelectedTags([]);
+    },
+    onError: (error: any) => {
+      console.error('Erro ao publicar artigo:', error);
+      if (error.response?.status === 401) {
+        alert('Sua sessão expirou ou você não está autenticado. Faça login novamente.');
+      } else if (error.response?.status === 404) {
+        alert('Rota de publicação não encontrada no servidor (Erro 404). Verifique a URL base.');
+      } else {
+        alert('Ocorreu um erro ao tentar publicar o artigo.');
+      }
+    },
+  });
+
   const normalizedInput = newTagInput.trim().toLowerCase();
+  
   const filteredTagSuggestions = useMemo(
     () =>
       availableTags
@@ -53,11 +84,9 @@ export function NovoArtigo() {
   const getTagStyle = (index: number) =>
     tagColorScheme[index % tagColorScheme.length];
 
-  // Referência para capturar o que for digitado na div editável
   const editorRef = useRef<HTMLDivElement>(null);
   const titleInputRef = useRef<HTMLInputElement>(null);
 
-  // Refs para controlar intervalos de digitação e permitir cancelamento
   const titleTypingTimer = useRef<number | null>(null);
   const contentTypingTimer = useRef<number | null>(null);
   const restartTimer = useRef<number | null>(null);
@@ -76,7 +105,6 @@ export function NovoArtigo() {
     }
   };
 
-  // Animação de máquina de escrever para placeholder do título e do editor
   useEffect(() => {
     const titleText = 'Insira o título do seu novo artigo';
     const contentText = 'Oque iremos ensinar hoje?';
@@ -86,13 +114,11 @@ export function NovoArtigo() {
 
     const startTyping = () => {
       if (!inputEl || !editorEl) return;
-      // só inicia se ambos campos estiverem vazios
       if (inputEl.value.trim() !== '' || editorEl.innerText.trim() !== '') return;
 
       stopTitleTyping();
       stopContentTyping();
 
-      // título
       let ti = 1;
       inputEl.placeholder = '';
       titleTypingTimer.current = window.setInterval(() => {
@@ -104,7 +130,6 @@ export function NovoArtigo() {
         }
       }, 40);
 
-      // conteúdo
       let ci = 1;
       editorEl.setAttribute('data-placeholder', '');
       contentTypingTimer.current = window.setInterval(() => {
@@ -117,10 +142,8 @@ export function NovoArtigo() {
       }, 50);
     };
 
-    // iniciar imediatamente
     startTyping();
 
-    // reiniciar a cada 10s se os campos ainda estiverem vazios
     restartTimer.current = window.setInterval(() => {
       const inEl = titleInputRef.current;
       const edEl = editorRef.current;
@@ -134,12 +157,8 @@ export function NovoArtigo() {
       }
     }, 10000);
 
-    const onInputInteraction = () => {
-      stopTitleTyping();
-    };
-    const onEditorInteraction = () => {
-      stopContentTyping();
-    };
+    const onInputInteraction = () => stopTitleTyping();
+    const onEditorInteraction = () => stopContentTyping();
 
     inputEl?.addEventListener('focus', onInputInteraction);
     inputEl?.addEventListener('input', onInputInteraction);
@@ -173,7 +192,6 @@ export function NovoArtigo() {
     };
   }, []);
 
-  // Função mágica que aplica negrito, itálico, cor, etc. no texto selecionado
   const updateActiveCommands = () => {
     setActiveCommands({
       bold: document.queryCommandState('bold'),
@@ -206,8 +224,15 @@ export function NovoArtigo() {
       );
       setSelectedTags((current) => [...current, data]);
       setNewTagInput('');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao criar tag:', error);
+      if (error.response?.status === 401) {
+        alert('Sua sessão expirou ou você não tem permissão para criar tags. Faça login novamente.');
+      } else if (error.response?.status === 400) {
+        alert('Não foi possível criar. O nome da tag não pode estar vazio.');
+      } else {
+        alert('Não foi possível criar a tag.');
+      }
     }
   };
 
@@ -215,15 +240,33 @@ export function NovoArtigo() {
     setSelectedTags((current) => current.filter((tag) => tag.id !== tagId));
   };
 
-  const handlePublish = () => {
+  const handlePublish = async () => {
     const contentHTML = editorRef.current?.innerHTML || '';
-    
-    console.log({ 
-      title, 
-      content: contentHTML, 
-      tags: selectedTags,
+
+    if (!title.trim()) {
+      alert('Por favor, insira um título antes de publicar.');
+      titleInputRef.current?.focus();
+      return;
+    }
+
+    if (!editorRef.current?.innerText.trim()) {
+      alert('Por favor, digite o conteúdo do seu artigo.');
+      editorRef.current?.focus();
+      return;
+    }
+
+    const tagsFormatadas = selectedTags.map((tag) => ({
+      id: tag.id,
+      name: tag.name,
+      title: tag.name
+    }));
+
+    await publicarArtigo({
+      title: title,
+      content: contentHTML,
+      published: true, 
+      tags: tagsFormatadas,
     });
-    alert('Artigo formatado pronto para envio! Olhe o console (F12).');
   };
 
   return (
@@ -270,9 +313,9 @@ export function NovoArtigo() {
           <div className={styles.toolbar}>
             <div className={styles.toolGroup}>
               
-              {/* Botão T - Abre o menu de Tags */}
               <div className={styles.tagWrapper}>
                 <button 
+                  type="button"
                   className={`${styles.toolBtn} ${showTagMenu ? styles.toolBtnActive : ''}`}
                   aria-pressed={showTagMenu}
                   onClick={() => setShowTagMenu(!showTagMenu)}
@@ -280,7 +323,6 @@ export function NovoArtigo() {
                   T
                 </button>
                 
-                {/* O Menu Suspenso de Tags */}
                 {showTagMenu && (
                   <div className={styles.tagDropdown}>
                     <p className={styles.tagDropdownTitle}>Adicionar tags ao post</p>
@@ -330,8 +372,8 @@ export function NovoArtigo() {
                 )}
               </div>
 
-              {/* Botão B - Negrito */}
               <button
+                type="button"
                 className={`${styles.toolBtn} ${activeCommands.bold ? styles.toolBtnActive : ''}`}
                 onClick={() => formatText('bold')}
                 aria-pressed={activeCommands.bold}
@@ -339,8 +381,8 @@ export function NovoArtigo() {
                 B
               </button>
               
-              {/* Botão I - Itálico */}
               <button
+                type="button"
                 className={`${styles.toolBtn} ${activeCommands.italic ? styles.toolBtnActive : ''}`}
                 onClick={() => formatText('italic')}
                 aria-pressed={activeCommands.italic}
@@ -348,8 +390,8 @@ export function NovoArtigo() {
                 I
               </button>
               
-              {/* Botão U - Sublinhado */}
               <button 
+                type="button"
                 className={`${styles.toolBtn} ${activeCommands.underline ? styles.toolBtnActive : ''}`} 
                 style={{ textDecoration: 'underline' }}
                 onClick={() => formatText('underline')}
@@ -358,7 +400,6 @@ export function NovoArtigo() {
                 U
               </button>
               
-              {/* Botão A - Cor (Um input disfarçado de botão) */}
               <label className={`${styles.toolBtn} ${styles.colorToolBtn}`}>
                 A
                 <input 
@@ -372,7 +413,6 @@ export function NovoArtigo() {
             </div>
           </div>
           
-          {/* A mágica do contentEditable: Parece uma textarea, mas aceita formatação rica */}
           <div 
             className={styles.contentArea}
             contentEditable={true}
@@ -383,11 +423,16 @@ export function NovoArtigo() {
         </div>
 
         <div className={styles.footerActions}>
-          <button className={styles.publishButton} onClick={handlePublish}>
+          <button 
+            type="button"
+            className={styles.publishButton} 
+            onClick={handlePublish}
+            disabled={estaPublicando}
+          >
             <span className={styles.globeIcon}>
               <img src={iconeGlobo} alt="Globo" />
             </span>
-            Publicar
+            {estaPublicando ? 'Publicando...' : 'Publicar'}
           </button>
         </div>
       </main>
