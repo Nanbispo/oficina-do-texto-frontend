@@ -20,7 +20,6 @@ export function Home() {
       
       <header className={styles.banner}>
         <div className={styles.gradientBadge}>Redação para Enem</div>
-        {/* Botão de "Novo Artigo" removido para os visitantes */}
       </header>
 
       <main className={styles.contentSection}>
@@ -34,52 +33,62 @@ export function Home() {
         </div>
 
         <div className={styles.grid}>
-          {posts.map((post) => (
-            <Link
-              key={post.id}
-              to={`/artigo/${post.id}`}
-              className={styles.cardLink}
-              aria-label={`Abrir artigo ${post.title}`}
-            >
-              <article className={styles.card}>
-                
-                <div className={styles.cardHeader}>
-                  <h2 className={styles.cardTitle}>{post.title}</h2>
-                  {/* Lápis e Lixeira removidos para os visitantes */}
-                </div>
+          {posts.map((post) => {
+            // 👇 CORREÇÃO AQUI: Remove as tags HTML do conteúdo e faz o corte de caracteres de forma limpa
+            const textoLimpo = (post.content || '').replace(/<[^>]*>/g, '');
+            const resumo = textoLimpo.length > 140 ? `${textoLimpo.slice(0, 140)}...` : textoLimpo;
 
-                <p className={styles.cardBody}>
-                  {post.content.length > 140 ? `${post.content}...` : post.content}
-                </p>
-                
-                <div className={styles.cardAuthor}>
-                  Autor:<br /><strong>{post.author}</strong>
-                </div>
+            // Tratamento preventivo caso o autor venha como objeto ou string do Go
+            const nomeAutor = post.author && typeof post.author === 'object' 
+              ? (post.author.name || post.author.username || 'Autor Desconhecido') 
+              : (post.author || 'Autor Desconhecido');
 
-                {/* LÓGICA DAS TAGS: Mostra as 2 primeiras e conta o resto */}
-                <div className={styles.tagsRow}>
-                  {post.tags?.slice(0, 2).map((tag) => (
-                    <span key={tag.id} className={styles.tag}>
-                      {tag.name}
-                    </span>
-                  ))}
+            return (
+              <Link
+                key={post.id}
+                to={`/artigo/${post.id}`}
+                className={styles.cardLink}
+                aria-label={`Abrir artigo ${post.title}`}
+              >
+                <article className={styles.card}>
                   
-                  {/* Se houver mais de 2 tags, renderiza o botão cinza com a diferença */}
-                  {post.tags && post.tags.length > 2 && (
-                    <span className={styles.tagCounter}>
-                      +{post.tags.length - 2}
-                    </span>
-                  )}
-                </div>
+                  <div className={styles.cardHeader}>
+                    <h2 className={styles.cardTitle}>{post.title}</h2>
+                  </div>
 
-              </article>
-            </Link>
-          ))}
+                  {/* Agora exibe o texto puro e sem bugs visuais */}
+                  <p className={styles.cardBody}>
+                    {resumo}
+                  </p>
+                  
+                  <div className={styles.cardAuthor}>
+                    Autor:<br /><strong>{nomeAutor}</strong>
+                  </div>
+
+                  {/* LÓGICA DAS TAGS */}
+                  <div className={styles.tagsRow}>
+                    {post.tags?.slice(0, 2).map((tag) => (
+                      <span key={tag.id} className={styles.tag}>
+                        {tag.name || tag.title}
+                      </span>
+                    ))}
+                    
+                    {post.tags && post.tags.length > 2 && (
+                      <span className={styles.tagCounter}>
+                        +{post.tags.length - 2}
+                      </span>
+                    )}
+                  </div>
+
+                </article>
+              </Link>
+            );
+          })}
         </div>
       </main>
 
       <footer className={styles.footer}>
-        Todos os direitos reservados a Sara Loia de Menezes
+        Todos os direitos reservados a Sara Menezes
       </footer>
     </div>
   );

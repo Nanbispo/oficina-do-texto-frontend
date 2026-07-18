@@ -4,6 +4,7 @@ export interface User {
 }
 
 export interface Tag {
+    title: string;
     id: number;
     name: string;
 }
