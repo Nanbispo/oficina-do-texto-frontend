@@ -1,14 +1,40 @@
-import { useState, useRef, useEffect } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { api } from '../../api/client';
+import { type Tag } from '../../types';
 import styles from './style.module.css';
 import iconeGlobo from '../../assets/world-wide-global.svg';
 
 export function NovoArtigo() {
   const [title, setTitle] = useState('');
   
-  // Estados para o menu de Tags
   const [showTagMenu, setShowTagMenu] = useState(false);
-  const [tags, setTags] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const [newTagInput, setNewTagInput] = useState('');
+
+  const queryClient = useQueryClient();
+  const { data: availableTags = [] } = useQuery<Tag[]>({
+    queryKey: ['tags'],
+    queryFn: async () => {
+      const { data } = await api.get<Tag[]>('/tags');
+      return data;
+    },
+  });
+
+  const normalizedInput = newTagInput.trim().toLowerCase();
+  const filteredTagSuggestions = useMemo(
+    () =>
+      availableTags
+        .filter((tag) => !selectedTags.some((selectedTag) => selectedTag.id === tag.id))
+        .filter((tag) => tag.name.toLowerCase().includes(normalizedInput)),
+    [availableTags, normalizedInput, selectedTags],
+  );
+
+  const existingTagMatch = availableTags.find(
+    (tag) => tag.name.toLowerCase() === normalizedInput,
+  );
+
+  const canCreateTag = normalizedInput !== '' && !existingTagMatch;
 
   // Referência para capturar o que for digitado na div editável
   const editorRef = useRef<HTMLDivElement>(null);
@@ -128,21 +154,40 @@ export function NovoArtigo() {
     editorRef.current?.focus(); 
   };
 
-  const handleAddTag = () => {
-    if (newTagInput.trim() && !tags.includes(newTagInput)) {
-      setTags([...tags, newTagInput.trim()]);
+  const handleSelectTag = (tag: Tag) => {
+    if (!selectedTags.some((selectedTag) => selectedTag.id === tag.id)) {
+      setSelectedTags([...selectedTags, tag]);
+    }
+    setNewTagInput('');
+  };
+
+  const handleCreateTag = async () => {
+    const name = newTagInput.trim();
+    if (name === '' || existingTagMatch) return;
+
+    try {
+      const { data } = await api.post<Tag>('/tags', { name });
+      queryClient.setQueryData<Tag[]>(['tags'], (old) =>
+        old ? [...old, data] : [data],
+      );
+      setSelectedTags((current) => [...current, data]);
       setNewTagInput('');
+    } catch (error) {
+      console.error('Erro ao criar tag:', error);
     }
   };
 
+  const handleRemoveTag = (tagId: number) => {
+    setSelectedTags((current) => current.filter((tag) => tag.id !== tagId));
+  };
+
   const handlePublish = () => {
-    // Captura o HTML gerado (com as tags <b>, <i>, <font color=>, etc)
     const contentHTML = editorRef.current?.innerHTML || '';
     
     console.log({ 
       title, 
       content: contentHTML, 
-      tags 
+      tags: selectedTags,
     });
     alert('Artigo formatado pronto para envio! Olhe o console (F12).');
   };
@@ -166,6 +211,23 @@ export function NovoArtigo() {
           onFocus={() => stopTitleTyping()}
         />
 
+        {selectedTags.length > 0 && (
+          <div className={styles.selectedTagsContainer}>
+            {selectedTags.map((tag) => (
+              <div key={tag.id} className={styles.selectedTag}>
+                <span>{tag.name}</span>
+                <button
+                  type="button"
+                  onClick={() => handleRemoveTag(tag.id)}
+                  className={styles.selectedTagRemove}
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
         <div className={styles.editorContainer}>
           <div className={styles.toolbar}>
             <div className={styles.toolGroup}>
@@ -182,22 +244,49 @@ export function NovoArtigo() {
                 {/* O Menu Suspenso de Tags */}
                 {showTagMenu && (
                   <div className={styles.tagDropdown}>
-                    <p className={styles.tagDropdownTitle}>Adicionar Tags</p>
+                    <p className={styles.tagDropdownTitle}>Adicionar tags ao post</p>
                     <div className={styles.tagInputRow}>
                       <input 
                         type="text" 
-                        placeholder="Ex: Redação..." 
+                        placeholder="Ex: redação..." 
                         value={newTagInput}
                         onChange={(e) => setNewTagInput(e.target.value)}
                         className={styles.tagDropdownInput}
                       />
-                      <button onClick={handleAddTag} className={styles.tagAddBtn}>+</button>
                     </div>
-                    <div className={styles.addedTags}>
-                      {tags.map((t, idx) => (
-                        <span key={idx} className={styles.miniTag}>{t}</span>
-                      ))}
-                    </div>
+
+                    {filteredTagSuggestions.length > 0 ? (
+                      <div className={styles.suggestionList}>
+                        {filteredTagSuggestions.map((tag) => (
+                          <button
+                            key={tag.id}
+                            type="button"
+                            className={styles.suggestionItem}
+                            onClick={() => handleSelectTag(tag)}
+                          >
+                            {tag.name}
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className={styles.noSuggestionsText}>
+                        {newTagInput.trim() === ''
+                          ? 'Digite para ver tags existentes.'
+                          : 'Nenhuma tag encontrada.'}
+                      </p>
+                    )}
+
+                    {canCreateTag && (
+                      <div className={styles.createTagSection}>
+                        <button
+                          type="button"
+                          className={styles.createTagButton}
+                          onClick={handleCreateTag}
+                        >
+                          Criar "{newTagInput.trim()}"
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
