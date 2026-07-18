@@ -88,7 +88,7 @@ export function NovoArtigo() {
     onSuccess: () => {
       alert(isEditing ? 'Artigo atualizado com sucesso!' : 'Artigo publicado com sucesso!');
       queryClient.invalidateQueries({ queryKey: ['posts'] });
-      navigate('/artigos'); // Redireciona de volta para a lista após sucesso
+      navigate('/home'); // Redireciona de volta para a lista após sucesso
     },
     onError: (error: any) => {
       console.error('Erro ao salvar artigo:', error);
