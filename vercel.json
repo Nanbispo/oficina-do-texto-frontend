@@ -20,9 +20,9 @@
           "value": "accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=*, geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
         },
         {
-  "key": "Content-Security-Policy",
-  "value": "default-src 'self'; connect-src 'self' https://app-go-389874839960.us-central1.run.app; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline';"
-}
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; connect-src 'self' https://app-go-389874839960.us-central1.run.app; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline';"
+        }
       ]
     }
   ]
