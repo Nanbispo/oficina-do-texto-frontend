@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: '/api', // 🌟 Mude para isso! Sem localhost e sem a URL do Cloud Run aqui.
+  baseURL: import.meta.env.VITE_API_URL, 
 });
 
 api.interceptors.request.use(
