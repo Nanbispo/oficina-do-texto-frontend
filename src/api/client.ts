@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL : 'https://app-go-389874839960.us-central1.run.app'
+  baseURL : import.meta.env.VITE_API_URL
 });
 
 api.interceptors.request.use(
